@@ -1,14 +1,20 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Allievo {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	private String nome;
@@ -22,6 +28,12 @@ public class Allievo {
 	private String matricola;
 	
 	private String email;
+	
+	@ManyToMany(mappedBy = "allievi")
+	private List<Corso> corsi;
+	
+	@OneToOne
+	private Societa societa;
 
 	
 	public Long getId() {
@@ -78,6 +90,22 @@ public class Allievo {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Corso> getCorsi() {
+		return corsi;
+	}
+
+	public void setCorsi(List<Corso> corsi) {
+		this.corsi = corsi;
+	}
+
+	public Societa getSocieta() {
+		return societa;
+	}
+
+	public void setSocieta(Societa societa) {
+		this.societa = societa;
 	}
 	
 }
