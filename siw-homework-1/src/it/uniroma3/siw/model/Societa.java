@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/* Politiche Fetch: sono state lasciate di default */
+/* Politiche Cascade: non sono stati applicati eventi a cascata */
+
 @Entity
 public class Societa {
 	

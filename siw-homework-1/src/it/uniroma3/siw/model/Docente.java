@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+/* Politiche Fetch: sono state lasciate di default */
+/* Politiche Cascade: non sono stati applicati eventi a cascata */
+
 @Entity
 public class Docente {
 	

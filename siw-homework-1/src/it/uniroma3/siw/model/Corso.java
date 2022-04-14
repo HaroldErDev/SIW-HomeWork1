@@ -3,12 +3,15 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+/* Politiche Fetch: sono state lasciate di default */
 
 @Entity
 public class Corso {
@@ -23,7 +26,9 @@ public class Corso {
 	
 	private int durataMesi;
 	
-	@ManyToOne
+	/* Un corso e' tenuto da un docente. Di conseguenza quando creo un corso devo creare a sua volta anche il docente relativo al corso. 
+	 * In modo analogo una volta eliminato il corso, il docente non terra' piu' quel corso e quindi va eliminato anche lui. */
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Docente docente;
 	
 	@ManyToMany
