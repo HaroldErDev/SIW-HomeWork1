@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-/* Politiche Fetch: sono state lasciate di default */
-
 @Entity
 public class Corso {
 	
@@ -26,11 +24,16 @@ public class Corso {
 	
 	private int durataMesi;
 	
-	/* Un corso e' tenuto da un docente. Di conseguenza quando creo un corso devo creare a sua volta anche il docente relativo al corso. 
-	 * In modo analogo una volta eliminato il corso, il docente non terra' piu' quel corso e quindi va eliminato anche lui. */
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	/* Fetch (eager): Se carico un corso posso caricare tutti suoi docenti, essendocene solo uno. */
+	/* Cascade: Un corso e' tenuto da un docente; quindi se creo il corso creo a sua volta anche il docente a lui relativo.
+	 * 			(se non gia' presente). */
+	@ManyToOne(cascade = {CascadeType.PERSIST})
 	private Docente docente;
 	
+	/* Fetch (lazy): Se carico un corso devo caricare gli allievi solo se richiesto; altrimenti se volessi, ad esempio, sapere
+	 *       		 il nome di un corso dovrei caricare anche tutti gli allievi che fanno parte di quel corso e cio' rallenterebbe il sistema. */
+	/* Cascade: Essendo una relazione ManyToMany conviene non inserire un evento a cascata, dato che andrebbe a rallentare il sistema se,
+	 * 	 		ad esempio, andassi a fare la PERSIST (mi controllerebbe tutti gli allievi). */
 	@ManyToMany
 	private List<Allievo> allievi;
 	

@@ -3,14 +3,12 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-/* Politiche Fetch: sono state lasciate di default */
-/* Politiche Cascade: non sono stati applicati eventi a cascata */
 
 @Entity
 public class Docente {
@@ -29,7 +27,11 @@ public class Docente {
 	
 	private int partitaIva;
 	
-	@OneToMany(mappedBy = "docente")
+	/* Fetch (lazy): Se carico un docente devo caricare i corsi solo se richiesto; altrimenti se volessi, ad esempio, sapere
+	 *       		 il nome di un docente dovrei caricare anche tutti i corsi tenuti dal docente e cio' rallenterebbe il sistema. */
+	/* Cascade: Ad un docente sono relativi piu' corsi; quindi quando creo il docente creo a sua volta anche i corsi che tiene (se non gia' presenti).
+	 * 			Se cancello il docente, quest'ultimo non terra' piu' i corsi e quindi vanno cancellati anche loro. */
+	@OneToMany(mappedBy = "docente", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Corso> corsi;
 	
 	

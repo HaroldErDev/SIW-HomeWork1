@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-/* Politiche Fetch: sono state lasciate di default */
-
 @Entity
 public class Societa {
 	
@@ -20,8 +18,9 @@ public class Societa {
 	
 	private String telefono;
 	
-	/* Ad una societa' e' relativo un indirizzo; quindi quando creo la societa' creo a sua volta anche l'indirizzo.
-	 * In modo analogo se cancello la societa', quest'ultima non fara' piu' parte di quell'indirizzo e quindi va cancellato anche lui. */
+	/* Fetch (eager): Se carico una societa' posso caricare tutti i suoi indirizzi, essendocene solo uno. */
+	/* Cascade: Ad una societa' e' relativo un indirizzo; quindi quando creo la societa' creo a sua volta anche l'indirizzo.
+	 * 			Se cancello la societa', quest'ultima non fara' piu' parte di quell'indirizzo e quindi va cancellato anche lui. */
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Indirizzo indirizzo;
 	

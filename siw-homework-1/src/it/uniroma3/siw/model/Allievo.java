@@ -3,15 +3,13 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-
-/* Politiche Fetch: sono state lasciate di default */
-/* Politiche Cascade: non sono stati applicati eventi a cascata */
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Allievo {
@@ -32,10 +30,17 @@ public class Allievo {
 	
 	private String email;
 	
+	/* Fetch (lazy): Se carico un allievo devo caricare i corsi solo se richiesto; altrimenti se volessi, ad esempio, sapere
+	 *       		 il nome di un allievo dovrei caricare anche tutti i corsi a cui fa parte e cio' rallentrebbe il sistema. */
+	/* Cascade: Essendo una relazione ManyToMany conviene non inserire un evento a cascata, dato che andrebbe a rallentare il sistema se,
+	 * 	 		ad esempio, andassi a fare la PERSIST (mi controllerebbe tutti i corsi). */
 	@ManyToMany(mappedBy = "allievi")
 	private List<Corso> corsi;
 	
-	@OneToOne
+	/* Fetch (eager): Se carico un allievo posso caricare tutte le sue societa', essendocene solo una. */
+	/* Cascade: Un allievo e' dipendente di una societa'; quindi se creo l'allievo creo a sua volta anche la societa' di cui fa parte
+	 * 			(se non gia' presente). */
+	@ManyToOne(cascade = {CascadeType.PERSIST})
 	private Societa societa;
 
 	
