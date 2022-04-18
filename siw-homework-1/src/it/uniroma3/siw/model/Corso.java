@@ -3,7 +3,6 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,16 +23,14 @@ public class Corso {
 	
 	private int durataMesi;
 	
-	/* Fetch (eager): Se carico un corso posso caricare tutti suoi docenti, essendocene solo uno. */
-	/* Cascade: Un corso e' tenuto da un docente; quindi se creo il corso creo a sua volta anche il docente a lui relativo.
-	 * 			(se non gia' presente). */
-	@ManyToOne(cascade = {CascadeType.PERSIST})
+	/* Fetch: Potrebbe essere utile conoscere il docente che tiene il relativo corso; quindi possiamo lasciare
+	 * la strategia fetch EAGER di default. */
+	@ManyToOne
 	private Docente docente;
 	
-	/* Fetch (lazy): Se carico un corso devo caricare gli allievi solo se richiesto; altrimenti se volessi, ad esempio, sapere
-	 *       		 il nome di un corso dovrei caricare anche tutti gli allievi che fanno parte di quel corso e cio' rallenterebbe il sistema. */
-	/* Cascade: Essendo una relazione ManyToMany conviene non inserire un evento a cascata, dato che andrebbe a rallentare il sistema se,
-	 * 	 		ad esempio, andassi a fare la PERSIST (mi controllerebbe tutti gli allievi). */
+	/* Fetch: Se carico un corso devo caricare gli allievi solo se richiesto; Se uso EAGER e volessi, ad esempio, sapere
+	 * il nome di un corso dovrei caricare anche tutti gli allievi che fanno parte di quel corso e cio' rallenterebbe il sistema. Conviene
+	 * quindi usare la stragia fecth LAZY di default. */
 	@ManyToMany
 	private List<Allievo> allievi;
 	

@@ -18,9 +18,10 @@ public class Societa {
 	
 	private String telefono;
 	
-	/* Fetch (eager): Se carico una societa' posso caricare tutti i suoi indirizzi, essendocene solo uno. */
+	/* Fetch: E' importante sapere l'indirizzo di una societa'; quindi e' piu' conveniente lasciare
+	 * la strategia fetch EAGER di default. */
 	/* Cascade: Ad una societa' e' relativo un indirizzo; quindi quando creo la societa' creo a sua volta anche l'indirizzo.
-	 * 			Se cancello la societa', quest'ultima non fara' piu' parte di quell'indirizzo e quindi va cancellato anche lui. */
+	 * Se cancello la societa', quest'ultima non fara' piu' parte di quell'indirizzo; quindi va cancellato anche l'indirizzo. */
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Indirizzo indirizzo;
 	

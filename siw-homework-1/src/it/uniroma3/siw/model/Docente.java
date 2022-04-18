@@ -3,7 +3,6 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,11 +26,10 @@ public class Docente {
 	
 	private int partitaIva;
 	
-	/* Fetch (lazy): Se carico un docente devo caricare i corsi solo se richiesto; altrimenti se volessi, ad esempio, sapere
-	 *       		 il nome di un docente dovrei caricare anche tutti i corsi tenuti dal docente e cio' rallenterebbe il sistema. */
-	/* Cascade: Ad un docente sono relativi piu' corsi; quindi quando creo il docente creo a sua volta anche i corsi che tiene (se non gia' presenti).
-	 * 			Se cancello il docente, quest'ultimo non terra' piu' i corsi e quindi vanno cancellati anche loro. */
-	@OneToMany(mappedBy = "docente", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	/* Fetch: Se carico un docente devo caricare i corsi solo se richiesto; Se uso EAGER e volessi, ad esempio, sapere
+	 * il nome di un docente dovrei caricare anche tutti i corsi tenuti dal docente e cio' rallenterebbe il sistema. Conviene quindi
+	 * usare la stragia fecth LAZY di default.*/
+	@OneToMany(mappedBy = "docente")
 	private List<Corso> corsi;
 	
 	
