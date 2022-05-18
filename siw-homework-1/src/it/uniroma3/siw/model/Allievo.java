@@ -39,7 +39,6 @@ public class Allievo {
 	 * lasciare la strategia fetch EAGER di default. */
 	@ManyToOne
 	private Societa societa;
-
 	
 	public Long getId() {
 		return id;
